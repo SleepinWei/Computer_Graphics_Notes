@@ -1,4 +1,11 @@
-### 入门
+# Learn opengl 
+my personal note for learnopengl tutorial by Joey de Vires
+link: [LearnOpengl](https://learnopengl-cn.github.io/)
+strong recommendations! Very nice resource for beginners in Opengl. 
+This tutorial even covers some advanced topics like Cascaded Shadow mapping.
+This note is written basically in Chinese. 
+
+## 入门
 > 使用的是GLAD库和GLFW库
 1. 程序开始前需要实例化GLFW窗口
  `glfwInit()`进行初始化
@@ -92,7 +99,7 @@ glGenBuffers(1,&EBO);
         +   启动shaderProgram
         +   swapBuffer
 
-#### Shaders
+### Shaders
 16. GLSL
 着色器开头声明**版本**，接着声明**输入**和**输出**变量，**uniform**和**main**函数。
 17. 数据类型
@@ -115,7 +122,7 @@ uniform变量值的修改必须在shaderProgram运行时，但是定位uniform�
 `glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)(3*sizeof(float));` 
 `glEnableVertexAttribArray(1);`
 1：**配置属性位置值为1的顶点属性**，属性有3个float大小。第5个属性表示跨度，最后一个表示属性对应数据的偏移值。位置顶点属性在前，所以偏移量为0，颜色属性在后，所以偏移`3*sizeof(float)` 
-#### 纹理
+### 纹理
 1. 纹理坐标
 2. 环绕方式：四种
 REPEAT,MIRRORED_REPEAT,CLAMP_TO_EDGE,CLAMP_TO_BORDER
@@ -154,9 +161,9 @@ glTexImage2D的第二个参数表示多级渐远纹理级别，第五个参数�
 10. `glPixelStorei(GL_UNPACK_ALIGNMENT, 1);`防止图片因为像素问题产生倾斜
 11. texcoord能否设置为0-2区间？会产生什么变化？
 
-#### Transformations
+### Transformations
 1. GLM数学库
-#### Coordinate Systems 
+### Coordinate Systems 
 1. 坐标系统
     + 局部空间，物体空间 Object Space
     + 世界空间 WorldSpace
@@ -179,7 +186,7 @@ glTexImage2D的第二个参数表示多级渐远纹理级别，第五个参数�
 6. Z buffer
 深度测试默认关闭，需要手动打开`glEnable(GL_DEPTH_TEST);` 
 每一帧开始时清除缓冲（和颜色缓冲相同） `glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);` 
-#### Camera
+### Camera
 1. z轴指向屏幕外，相机后移意味着z轴正向移动，相机看向z轴负方向
 2. 摄像机位置`vec3 cameraPos = vec3(0.0f,0.0f,3.0f)` 
 3. 摄像机方向`vec3 cameraTarget = vec3(0.0f,0.0f,0.0f);` 
@@ -233,7 +240,7 @@ Pitch,Yaw and Roll
 `direction.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));`
 
 
-#### 材质
+### 材质
 1. material类的设计(shader中)
     +   ambient 
     +   diffuse 
@@ -247,21 +254,21 @@ Pitch,Yaw and Roll
     +   diffuse
     +   specular
 实际的分量效果为light的属性乘以material的属性
-#### 光照贴图
+### 光照贴图
 1. 反射贴图diffuse map 
 用贴图代替diffuse项和ambient
     +   sampler2D diffuse 和一个texcoord（非uniform），通过texture(diffuse,texcoord)来调用
 2. 镜面光贴图：用贴图上的颜色乘以对应的光源镜面强度，让木头发光不再明显
 3. 采样镜面光贴图：把specular也改成sample2d类型
 4. 法线贴图和反射贴图（更好的效果：凹凸状，不同法线效果）
-#### 投光物 casters
+### 投光物 casters
 1. 平行光：用direction替代position
 2. 光衰减：light结构体中加入linear和quadratic参数
 3. 聚光：spotlight（手电筒）
 略
 3. 合并结果
 4. 多光源
-#### 网格
+### 网格
 1. vertex顶点：position，normal，texcoord
 2. texture结构体：id，type，整理纹理数据
 3. mesh结构体
@@ -275,7 +282,7 @@ struct Texture{
 }
 ```
 用一个texture_loaded数组记录已经加载过的所有纹理
-#### 深度测试
+### 深度测试
 1. 开启深度测试glEnable(GL_DEPTH_TEST);
 2. 需要每次renderloop开始时清空DEPTH_BUFFER_BIT
 3. 可以通过`glDepthMask(GL_FALSE)`设置不更新深度缓存
@@ -284,7 +291,7 @@ glDepthFunc(GL_LESS)，设置特定比较运算符
 5. 深度缓冲可视化
 `gl_FragCoord`（fragment shader中）包含z值特定深度值，可以将这个值传给fragColor达成可视化
 6. z-fighting
-#### 模板测试stencil test
+### 模板测试stencil test
 1. 启动模板测试glEnable(GL_STENCIL_TEST)
 2. 需要glClear中清楚GL_STENCIL_BUFFER_BIT
 3. 允许设置掩码 glStencilMask(0xFF);
@@ -298,7 +305,7 @@ glDepthFunc(GL_LESS)，设置特定比较运算符
     +   再次绘制物体，只在片段模板值不等于1时绘制
     +   再次启用模板写入和深度测试
 （略）
-#### 混合 Blending
+### 混合 Blending
 1. 混合是实现透明度的方法
 2. 在纹理中加入alpha通道，实现透明贴图glTexImage2D(...,GL_RGBA)
 并修改shader中的texture相关函数（已经是四通道）
@@ -323,7 +330,49 @@ opengl只会自动混合当前颜色和zbuffer中的颜色，因此因为渲染�
     +   GL_FRONT_AND_BACK 
 设置要剔除的是正面还是背面
 通过glFrontFace定义顺时针还是逆时针为正向面
-#### 帧缓冲
+### 帧缓冲
 1. 自定义帧缓冲
 2. FBO对象
-3. 
+
+
+## 高级光照
+### 阴影
+1. shadowmap
+2. Cascaded Shadow Mapping 
+### CSM:Cascaded Shadow Mapping
+参考<https://zhuanlan.zhihu.com/p/379042993>
+1. basic idea: 将摄像机视锥分割，并对每个视锥单独进行shadowMap贴图
+2. 步骤：
+   1. 摄像机视锥分割
+   2. 子视锥包围盒计算
+   3. 光源投影矩阵计算
+   4. ShadowMap 贴图渲染
+   5. Shadow Receive 计算
+
+3. 视锥的分割
+希望每一级视锥在投影到摄像机屏幕空间时，**有相似的分辨率**
+<img src="../img/CSM.jpg" width="500">
+可以得到
+<img src="../img/CSM1.png" width="200">
+
+    让$\frac{dp}{ds}$为常数，与z无关，并将平面法线的参数视作常数，因此有$\frac{dz}{z*ds}=k$，再积分，得到$z=n*(\frac{f}{n})^s$ 所以应该**等比分割**
+    实际中，与线性分割结合，防止在一级CSM中浪费空间（一级CSM通常为5.6m左右，一般比较空旷）
+    $z_i = lerp(n*(\frac{f}{n})^{\frac{i}{N}},n+\frac{i*(f-n)}{N},\lambda)$
+4. 包围盒计算：最小包围盒
+![](../img/CSM2.jpg)
+运算的方法为，将坐标变换到lightSpace中，这里是平行光，因此需要做一个旋转
+然后在找到对应的x,y,z的最大值和最小值即可
+但是**包围盒会随着转动而改变大小，导致ShadowMap分辨率发生变化，产生shadow flickering**
+5. 包围盒：最大正方形包围盒：可以解决shimmering effect，但是引起Texture浪费
+![](../img/CSM3.jpg)
+6. 包围盒：球型包围盒
+![](../img/CSM4.jpg)
+7. 包围盒：紧凑球型包围盒（Unity）
+8. Cascade Selection
+在Shadow Receive阶段，判断像素属于哪一个CSM
+9. distance selection: 根据distance判断
+10. bounding sphere selection:球型包围盒可以通过到球心距离判断
+11. 
+### 延迟渲染
+1. 结合延迟渲染和正向渲染
+在延迟渲染管线最后进行正向渲染光源，需要**存储延迟渲染的深度信息**，这样才能在正向渲染时获得正确的遮蔽关系。因此，需要**复制出集合渲染阶段中的深度信息**，并输出到默认帧缓冲的深度缓冲。
