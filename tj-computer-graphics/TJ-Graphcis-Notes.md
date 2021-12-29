@@ -1,6 +1,8 @@
 # Computer Graphics Notes 
 A review for Computer Graphics Course.
 This course is about the basis of Computer Graphics, covering topics including Basis piplines, Rasterization, Shading etc. Meahwhile raytracing techinques are not discussed much. 
+This course is given by Prof. Zhao Junqiao. 
+Course homepage: [CG](http://cs1.tongji.edu.cn/courses/CS100433/)
 
 ## 1 Introduction 
 1. modern grpahics pipeline 
